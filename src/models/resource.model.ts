@@ -1,22 +1,49 @@
-import { Schema, model, Document } from 'mongoose';
-import bcrypt from 'bcrypt';
+import { Document, model, Schema } from 'mongoose';
 
 export interface IResource extends Document {
-    email: string,
-    password: string,
-    comparePassword: (password: string) => Promise<boolean>;
+    name: string,
+    url_image: string,
+    date_of_purchase: Date;
+    date_of_maintenance: Date;
+    description: string;
+    imagePath: string
 };
 
-const userSchema = new Schema({
-    email: {
+const resourceSchema = new Schema({
+    name: {
         type: String,
-        unique: true,
+        unique: false,
         required: true,
         lowercase: true,
         trim: true
     },
-    password: {
+    url_image: {
         type: String,
-        required: true
+        unique: false,
+        required: true,
+        lowercase: true,
+        trim: true
+    },
+    date_of_purchase: {
+        type: Date,
+        unique: false,
+        required: true,
+    },
+    date_of_maintenance: {
+        type: Date,
+        unique: false,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+        lowercase: true,
+        trim: true
+    },
+    imagePath: {
+        type: String,
+        trim: true
     }
 });
+
+export default model<IResource>('Resource', resourceSchema);
